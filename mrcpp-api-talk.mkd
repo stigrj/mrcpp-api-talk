@@ -55,7 +55,9 @@ Some important analytic functions are implemented
 - Slater functions
 - Hydrogen solutions
 
-General analytic function through lambdas
+
+
+General analytic function through lambda functions
 
 ```cpp
 auto f = [] (const double *r) -> double;
@@ -79,11 +81,15 @@ Some important analytic functions are implemented
 - Slater functions
 - Hydrogen solutions
 
+
+
 General analytic function through lambda functions
 
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
+
+
 
 Hydrogen nuclear potential
 
@@ -116,8 +122,8 @@ BoundingBox<D> world(idx, nb);
 Scaling basis
  - Legendre polynomials
  - Interpolating polynomials
- - Available orders footnote[.red[+] Some operators require intermediates of order `\(2k\)`, so in that case the
-maximum order is `\(k=20\)`]: `\(1 \leq k \leq 40\)`
+ - Available orders.red[+]: `\(1 \leq k \leq 40\)`
+ 
 ```cpp
 int k;                      // Polynomial order
 InterpolatingBasis basis(k);
@@ -128,6 +134,9 @@ Multi-resolution analysis
 MultiResolutionAnalysis<D> MRA(world, basis);
 ```
 ]
+
+.footnote[.red[+] Some operators require intermediates of order `\(2k\)`, so in that case the
+maximum order is `\(k=20\)`]
 
 ---
 

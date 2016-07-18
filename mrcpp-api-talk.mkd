@@ -91,18 +91,49 @@ layout: false
 ## Function representations
 ]
 .right-column[
-Ways of constructing MW representations
-- Projection of analytic function
-- Arithmetic operations
-- Application of MW operator
+- The FunctionTree is a rather complicated data structure
+- Construction involves
+  * Setting up memory allocator
+  * Setting up root nodes according to MRA
+  * Growing a tree structure
+  * Computing MW coefficients
+- FunctionTree constructor is __protected__
+- Construction handled by __TreeBuilder__ objects
+- Different ways of constructing MW representations
+  * Projection of analytic function
+  * Addition of MW functions
+  * Multiplication of MW functions
+  * Application of MW operator
 ]
 
 ---
 
 layout: false
 .left-column[
-## MWProjector
-### - Example
+## TreeBuilder
+]
+.right-column[
+- Tree building algorithm
+  1. Start with an initial guess for the grid
+  2. Compute the output function on the current grid
+  3. Refine the grid where needed
+  4. Iterate 2 and 3 until the grid is converged
+
+- Four available TreeBuilders<sup>.red[*]</sup>
+  * MWProjector
+  * MWAdder
+  * MWMultiplier
+  * MWOperator
+
+.footnote[.red[*]the __MW__ prefix indicates that MW coefs are computed]
+]
+
+---
+
+layout: false
+.left-column[
+## TreeBuilder
+### - MWProjector
 ]
 .right-column[
 Projecting a unit charge Gaussian
@@ -125,8 +156,9 @@ FunctionTree<3> *f_tree = Q(f);
 
 layout: false
 .left-column[
-## MWAdder
-### - Example
+## TreeBuilder
+### - MWProjector
+### - MWAdder
 ]
 .right-column[
 Adaptive addition of two functions
@@ -143,8 +175,10 @@ FunctionTree<3> *f_tree = add(1.0, *g_tree, -1.0, *h_tree);
 
 layout: false
 .left-column[
-## MWMultiplier
-### - Example
+## TreeBuilder
+### - MWProjector
+### - MWAdder
+### - MWMultiplier
 ]
 .right-column[
 Adaptive multiplication of two functions 
@@ -161,13 +195,30 @@ FunctionTree<3> *f_tree = mult(1.0, *g_tree, *h_tree);
 
 layout: false
 .left-column[
+## TreeBuilder
+### - MWProjector
+### - MWAdder
+### - MWMultiplier
+### - MWOperator
+]
+.right-column[
+- Three types of MW operator
+  * DerivativeOperator
+  * PoissonOperator
+  * HelmholtzOperator
+]
+
+---
+
+layout: false
+.left-column[
 ## MWOperator
-### - Derivative
+### - Derivative Operator
 ]
 .right-column[
 Adaptive application of derivative operator
 
-`$$ f=\frac{\partial}{\partial y} g $$`
+`$$ f=\frac{\partial g}{\partial y} $$`
 
 ```cpp
 DerivativeOperator<3> D(MRA, prec, a, b);   
@@ -181,7 +232,7 @@ FunctionTree<3> *f_tree = D(*g_tree);
 layout: false
 .left-column[
 ## MWOperator
-### - Poisson
+### - Poisson Operator
 ]
 .right-column[
 Adaptive application of Poisson operator
@@ -201,7 +252,7 @@ double E = f_tree->dot(*g_tree);
 layout: false
 .left-column[
 ## MWOperator
-### - Helmholtz
+### - Helmholtz Operator
 ]
 .right-column[
 Adaptive application of Helmholtz operator
@@ -230,7 +281,7 @@ layout: false
   * GridGenerator
   * GridCleaner
 
-.footnote[.red[*]the __Grid__ prefix indicates that no MW coefs are computed]
+.footnote[.red[*]the __Grid__ prefix indicates that MW coefs are __not__ computed]
 ]
 
 ---

@@ -1,0 +1,182 @@
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+#Managing submodules without git
+
+.author[Stig Rune Jensen]
+
+.date[3 August 2016, Stony Brook]
+
+.footnote[Slides available on [GitHub](https://github.com/stigrj/mrchem-api-talk)]
+
+???
+
+Some thoughts and a proposal on how to manage submodules without using git
+
+---
+layout: false
+.left-column[
+  ## Modular programming
+]
+.right-column[
+  Divide-and-conquer for programming.red[*]:
+
+- Keep independent tasks uncoupled
+
+- Components can be tested autonomously
+
+- Provide standard interfaces across hosts
+
+.footnote[.red[*] D. L. Parnas, [_Commun. ACM_, 1968, __11__, 341](http://dl.acm.org/citation.cfm?id=361623)]
+
+  How?
+
+- Divide codebase into small components
+
+- Components __have to be__ (mostly) agnostic of each other
+
+- __No assumptions__ about the host should be made
+
+- Test on the largest number of platforms possible
+
+- [Semantic versioning](http://semver.org/)
+
+]
+
+???
+
+- Keep independent tasks uncoupled
+
+- Components can be tested autonomously
+
+- Provide standard interfaces across hosts
+  * Standard interfaces: think of BLAS and LAPACK
+
+  How?
+
+- Components __have to be__ (mostly) agnostic of each other
+   * Loose coupling between components is essential!
+
+- __No assumptions__ about the host should be made
+   * Loose coupling of the host and the guest is even more essential.
+   * Think of language interoperability from the start!
+   * This means that you should use C, at least at the interface level.
+
+---
+layout: false
+.left-column[
+  ## Testing
+]
+.right-column[
+<img src="images/why_you_need_testing.jpg" align="middle">
+<p style="clear: both;">
+
+  No task is too small for testing!
+]
+
+???
+
+No task is too small to go untested!
+
+---
+## Using git
+<img src="images/contented.jpg" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+<img src="images/love_you_too.jpg" style="float: left; width: 50%; margin-right: 1%; margin-bottom: 0.5em;">
+<p style="clear: both;">
+
+* It tangles host and guest code build up
+
+* You still need to care, even if you would like not to
+
+* Deactivating == not testing == failures down the road
+
+* Semantic versioning __never__ enforced
+
+???
+
+- It has worked up to now
+- But has led to lots of frustration!
+- Why am I not happy with it?
+- I am a sinner! I've propagated this model too
+  * It was to adopt this that we re-wrote Psi4 CMake infrastructure
+
+---
+layout: false
+## Real world<sup>TM</sup> examples
+
+### Cloning and branch switching
+
+<div class="imageWrapper">
+  <img class="overlayImage" src="images/clone_error.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/clone_error-lab.png" style="width: 80%" align="middle">
+</div>
+<p style="clear: both;">
+
+---
+layout: false
+## Real world<sup>TM</sup> examples
+
+### Accidental submodule reference updates
+
+<div class="imageWrapper">
+  <img class="overlayImage" src="images/compile_error1.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/compile_error2.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/compile_error3.png" style="width: 80%" align="middle">
+</div>
+<p style="clear: both;">
+
+---
+layout: false
+## Real world<sup>TM</sup> examples
+
+### Faulty host/guest updates
+
+<div class="imageWrapper">
+  <img class="overlayImage" src="images/link_error1.png" style="width: 80%" align="middle">
+
+???
+
+- The guest developer forgets to update the reference to the submodule
+  with the commit to the host code repository
+
+--
+  <img class="overlayImage" src="images/link_error2.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/link_error3.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/link_error4.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/link_error5.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/link_error6.png" style="width: 80%" align="middle">
+--
+  <img class="overlayImage" src="images/link_error7.png" style="width: 80%" align="middle">
+</div>
+<p style="clear: both;">
+
+---
+
+## Acknowldegements
+
+- Luca Frediani
+
+- Tor Flå
+
+- Radovan Bast
+
+- Jonas Juselius
+
+---
+name: last-page
+template: inverse
+
+## Thanks for your attention!
+
+Slideshow created using [remark] and served using [cicero]
+
+[remark]: https://github.com/gnab/remark
+[cicero]: https://github.com/bast/cicero

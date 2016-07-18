@@ -232,6 +232,7 @@ FunctionTree<3> *f_tree = D(*g_tree);
 layout: false
 .left-column[
 ## MWOperator
+### - Derivative Operator
 ### - Poisson Operator
 ]
 .right-column[
@@ -252,6 +253,8 @@ double E = f_tree->dot(*g_tree);
 layout: false
 .left-column[
 ## MWOperator
+### - Derivative Operator
+### - Poisson Operator
 ### - Helmholtz Operator
 ]
 .right-column[
@@ -338,19 +341,19 @@ layout: false
 ### - Examples
 ]
 .right-column[
-- Projecting on existing grid __without__ refinement
+Projecting on existing grid __without__ refinement
 ```cpp
 MWProjector<D> Q(MRA);          // No (or negative) precision
 Q(*f_tree, f);                  // Fixed projection
 ```
 
-- Projecting on existing grid __with__ refinement
+Projecting on existing grid __with__ refinement
 ```cpp
 MWProjector<D> Q(MRA, prec);    // Positive precision
 Q(*f_tree, f);                  // Adaptive projection
 ```
 
-- Projecting on existing grid with __limited__ refinement
+Projecting on existing grid with __limited__ refinement
 ```cpp
 MWProjector<D> Q(MRA, prec);    // Positive precision
 Q(*f_tree, f, max_iter);        // Limited adaptive projection
@@ -367,7 +370,7 @@ layout: false
 ### - Examples
 ]
 .right-column[
-- Derivatives are usually computed on a fixed grid
+Derivatives are usually computed on a fixed grid
 ```cpp
 GridGenerator<3> G(MRA);
 DerivativeOperator<3> D(MRA);
@@ -389,7 +392,7 @@ layout: false
 ### - Examples
 ]
 .right-column[
-- Addition of two functions is usually done on their union grid
+Addition of two functions is usually done on their union grid
 ```cpp
 GridGenerator<D> G(MRA);
 MWAdder<D> add(MRA);
@@ -411,7 +414,7 @@ layout: false
 ### - Examples
 ]
 .right-column[
-- A cumbersome adaptive projection algorithm
+A cumbersome adaptive projection algorithm
 ```cpp
 double prec;
 GridCleaner<D> C(MRA, prec);    // Precision is passed to the

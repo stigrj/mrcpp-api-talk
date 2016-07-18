@@ -108,35 +108,79 @@ auto f = [Z] (const double *r) -> double {
 layout: false
 .left-column[
 ## Multi Resolution Analysis
+### -Computational domain
 ]
 .right-column[
-Computational domain
+Define a computational domain
 ```cpp
-int n;                      // Box size 2^{-n}
-int l[D];                   // Translation of first box
-int nb[D];                  // Number of boxes
-NodeIndex<D> idx(n, l);
-BoundingBox<D> world(idx, nb);
+int n;                          // Box size 2^{-n}
+int corner[D];                  // Translation of first box
+int boxes[D];                   // Number of boxes
+NodeIndex<D> idx(n, corner);
+BoundingBox<D> world(idx, boxes);
 ```
 
-Scaling basis
- - Legendre polynomials
- - Interpolating polynomials
- - Available orders.red[+]: `\(1 \leq k \leq 40\)`
- 
+---
+
+layout: false
+.left-column[
+## Multi Resolution Analysis
+### -Computational domain
+### -Scaling basis
+]
+.right-column[
+Define a computational domain
 ```cpp
-int k;                      // Polynomial order
-InterpolatingBasis basis(k);
+int n;                          // Box size 2^{-n}
+int corner[D];                  // Translation of first box
+int boxes[D];                   // Number of boxes
+NodeIndex<D> idx(n, corner);
+BoundingBox<D> world(idx, boxes);
 ```
 
-Multi-resolution analysis
-```cpp
-MultiResolutionAnalysis<D> MRA(world, basis);
-```
+- Two types of scaling basis
+  * Legendre polynomials
+  * Interpolating polynomials
+- Available orders.red[<sup>*</sup>]: `\(1 \leq k \leq 40\)`
+
 ]
 
-.footnote[.red[+] Some operators require intermediates of order `\(2k\)`, so in that case the
-maximum order is `\(k=20\)`]
+.footnote[.red[*] Some operators require `\(2k\)` intermediates]
+
+---
+
+layout: false
+.left-column[
+## Multi Resolution Analysis
+### -Computational domain
+### -Scaling basis
+### -MRA
+]
+.right-column[
+- Define a computational domain
+```cpp
+int n;                          // Box size 2^{-n}
+int corner[D];                  // Translation of first box
+int boxes[D];                   // Number of boxes
+NodeIndex<D> idx(n, corner);
+BoundingBox<D> world(idx, boxes);
+```
+
+- Two types of scaling basis
+  * Legendre polynomials
+  * Interpolating polynomials
+- Available orders<sup>.red[*]</sup>: `\(1 \leq k \leq 40\)`
+
+Combine world and basis to get MRA
+```cpp
+int k;                          // Polynomial order
+InterpolatingBasis basis(k);
+MultiResolutionAnalysis<D> MRA(world, basis);
+```
+
+]
+
+.footnote[.red[*] Some operators require `\(2k\)` intermediates]
 
 ---
 

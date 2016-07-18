@@ -8,31 +8,47 @@ class: center, middle, inverse
 
 .date[3 August 2016, Stony Brook, NY]
 
-.footnote[Slides available on [GitHub](https://github.com/stigrj/mrchem-api-talk)]
+.footnote[Slides available on [GitHub](https://github.com/stigrj/mrcpp-api-talk)]
 
 ---
 layout: false
 .left-column[
-  ## Analytic functions
+## Introduction
+]
+.right-column[
+]
+### Some intro
+]
+
+---
+
+layout: false
+.left-column[
+## Analytic functions
 ]
 .right-column[
     Available through lambda functions
-
-```C++
+```cpp
     auto f = [] (const double *r) -> double;
 ```
 ]
 
----
-layout: false
+???
+
 .left-column[
-  ## Analytic functions
+## Analytic functions
+## Example
 ]
 .right-column[
-    Example: Nuclear potential
+    Available through lambda functions
+```cpp
+    auto f = [] (const double *r) -> double;
+```
 
-```C++
-    double Z = 1.0;                 // Hydrogen nuclear charge
+    Hydrogen nuclear potential
+
+```cpp
+    double Z = 1.0;             // Hydrogen nuclear charge
     auto f = [Z] (const double *r) -> double {
         double R = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
         return Z/R;
@@ -41,20 +57,93 @@ layout: false
 ]
 
 ---
+
 layout: false
 .left-column[
-  ## Testing
+## MultiResolutionAnalysis
 ]
 .right-column[
-<img src="images/why_you_need_testing.jpg" align="middle">
-<p style="clear: both;">
-
-  No task is too small for testing!
+```cpp
+    int n;                              // Root scale defines box size 2^{-n}
+    int l[D];                           // Translation of first box
+    int nb[D];                          // Number of boxes
+    NodeIndex<D> idx(n, l);             // Index defining the first box
+    BoundingBox<D> world(idx, nb);
+```
 ]
 
 ???
 
-No task is too small to go untested!
+.left-column[
+## MultiResolutionAnalysis
+]
+.right-column[
+### Computational domain
+```cpp
+    int n;                              // Root scale defines box size 2^{-n}
+    int l[D];                           // Translation of first box
+    int nb[D];                          // Number of boxes
+    NodeIndex<D> idx(n, l);             // Index defining the first box
+    BoundingBox<D> world(idx, nb);
+```
+### Scaling basis
+ * Legendre polynomials
+ * Interpolating polynomials
+ * Available orders[+]: `\(1 \leq k \leq 40\)`
+```cpp
+    int k;                              // Polynomial order
+    InterpolatingBasis basis(k);        // Legendre or Interpolating basis
+```
+
+[+] Some operators require intermediates of order `\(2k\)`, so in that case the
+maximum order is `\(k=20\)`
+]
+
+???
+
+.left-column[
+## MultiResolutionAnalysis
+]
+.right-column[
+### Computational domain
+```cpp
+    int n;                              // Root scale defines box size 2^{-n}
+    int l[D];                           // Translation of first box
+    int nb[D];                          // Number of boxes
+    NodeIndex<D> idx(n, l);             // Index defining the first box
+    BoundingBox<D> world(idx, nb);
+```
+### Scaling basis
+ * Legendre
+ * Interpolating
+ * Available orders[+]: `\(1 \leq k \leq 40\)`
+```cpp
+    int k;                              // Polynomial order
+    InterpolatingBasis basis(k);        // Legendre or Interpolating basis
+```
+
+### Multi-resolution analysis
+```cpp
+    MultiResolutionAnalysis<D> MRA(world, basis);
+```
+
+[+] Some operators require intermediates of order `\(2k\)`, so in that case the
+maximum order is `\(k=20\)`
+]
+
+---
+
+layout: false
+.left-column[
+## Function representations
+]
+.right-column[
+
+### Ways of constructing MW representations
+* Projection of analytic function
+* Arithmetic operations
+* Application of MW operator
+]
 
 ---
 
@@ -69,6 +158,7 @@ No task is too small to go untested!
 - Jonas Juselius
 
 ---
+
 name: last-page
 template: inverse
 

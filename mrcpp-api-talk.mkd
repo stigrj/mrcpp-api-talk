@@ -42,7 +42,7 @@ layout: false
 ```
 ]
 .left-column[
-## Example
+- Example
 ]
 .right-column[
 - Hydrogen nuclear potential
@@ -60,9 +60,10 @@ layout: false
 
 layout: false
 .left-column[
-## MultiResolutionAnalysis
+## Multi Resolution Analysis
 ]
 .right-column[
+### Computational domain
 ```cpp
     int n;                      // Box size 2^{-n}
     int l[D];                   // Translation of first box
@@ -70,52 +71,10 @@ layout: false
     NodeIndex<D> idx(n, l);
     BoundingBox<D> world(idx, nb);
 ```
-]
 
-???
-
-.left-column[
-## MultiResolutionAnalysis
-]
-.right-column[
-### Computational domain
-```cpp
-    int n;                              // Root scale defines box size 2^{-n}
-    int l[D];                           // Translation of first box
-    int nb[D];                          // Number of boxes
-    NodeIndex<D> idx(n, l);             // Index defining the first box
-    BoundingBox<D> world(idx, nb);
-```
 ### Scaling basis
  * Legendre polynomials
  * Interpolating polynomials
- * Available orders[+]: `\(1 \leq k \leq 40\)`
-```cpp
-    int k;                              // Polynomial order
-    InterpolatingBasis basis(k);        // Legendre or Interpolating basis
-```
-
-[+] Some operators require intermediates of order `\(2k\)`, so in that case the
-maximum order is `\(k=20\)`
-]
-
-???
-
-.left-column[
-## MultiResolutionAnalysis
-]
-.right-column[
-### Computational domain
-```cpp
-    int n;                              // Root scale defines box size 2^{-n}
-    int l[D];                           // Translation of first box
-    int nb[D];                          // Number of boxes
-    NodeIndex<D> idx(n, l);             // Index defining the first box
-    BoundingBox<D> world(idx, nb);
-```
-### Scaling basis
- * Legendre
- * Interpolating
  * Available orders[+]: `\(1 \leq k \leq 40\)`
 ```cpp
     int k;                              // Polynomial order
@@ -138,7 +97,6 @@ layout: false
 ## Function representations
 ]
 .right-column[
-
 ### Ways of constructing MW representations
 * Projection of analytic function
 * Arithmetic operations

@@ -143,7 +143,7 @@ BoundingBox<D> world(idx, boxes);
 - Available orders.red[<sup>*</sup>]: `\(1 \leq k \leq 40\)`
 ]
 
-.footnote[.red[*] Some operators require `\(2k\)` intermediates]
+.footnote[.red[*] Some operators require `\( 2k \)` intermediates]
 
 ---
 
@@ -176,7 +176,7 @@ MultiResolutionAnalysis<D> MRA(world, basis);
 ```
 ]
 
-.footnote[.red[*] Some operators require `\(2k\)` intermediates]
+.footnote[.red[*] Some operators require `\( 2k \)` intermediates]
 
 ---
 

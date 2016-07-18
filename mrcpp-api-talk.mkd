@@ -111,7 +111,6 @@ layout: false
 ### -Computational domain
 ]
 .right-column[
-Define a computational domain
 ```cpp
 int n;                          // Box size 2^{-n}
 int corner[D];                  // Translation of first box
@@ -119,6 +118,7 @@ int boxes[D];                   // Number of boxes
 NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
+]
 
 ---
 
@@ -129,7 +129,6 @@ layout: false
 ### -Scaling basis
 ]
 .right-column[
-Define a computational domain
 ```cpp
 int n;                          // Box size 2^{-n}
 int corner[D];                  // Translation of first box
@@ -157,7 +156,6 @@ layout: false
 ### -MRA
 ]
 .right-column[
-- Define a computational domain
 ```cpp
 int n;                          // Box size 2^{-n}
 int corner[D];                  // Translation of first box
@@ -171,7 +169,6 @@ BoundingBox<D> world(idx, boxes);
   * Interpolating polynomials
 - Available orders<sup>.red[*]</sup>: `\(1 \leq k \leq 40\)`
 
-Combine world and basis to get MRA
 ```cpp
 int k;                          // Polynomial order
 InterpolatingBasis basis(k);

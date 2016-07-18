@@ -52,8 +52,8 @@ Some important analytic functions are implemented
 - Gaussians
 - Slater functions
 - Hydrogen solutions
-\ 
-\ 
+ 
+ 
 General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
@@ -74,14 +74,14 @@ Some important analytic functions are implemented
 - Gaussians
 - Slater functions
 - Hydrogen solutions
-\ 
-\ 
+  
+  
 General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
-\ 
-\ 
+  
+  
 Hydrogen nuclear potential
 ```cpp
 double Z = 1.0;             // Hydrogen nuclear charge
@@ -125,8 +125,8 @@ int boxes[D];                   // Number of boxes
 NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
-\ 
-\ 
+ 
+ 
 - Two types of scaling basis
   * Legendre polynomials
   * Interpolating polynomials
@@ -153,16 +153,15 @@ int boxes[D];                   // Number of boxes
 NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
-\ 
-\ 
+ 
+ 
 - Two types of scaling basis
   * Legendre polynomials
   * Interpolating polynomials
 
 - Available<sup>.red[*]</sup> orders: `\(1 \leq k \leq 40\)`
-\ 
-\ 
-
+ 
+ 
 ```cpp
 int k;                          // Polynomial order
 InterpolatingBasis basis(k);

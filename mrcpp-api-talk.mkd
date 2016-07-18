@@ -28,6 +28,7 @@ layout: false
 layout: false
 .left-column[
 ## Analytic functions
+### - Explicitly implemented
 ]
 .right-column[
 Some important analytic functions are implemented
@@ -46,6 +47,28 @@ auto f = [] (const double *r) -> double;
 
 .left-column[
 ## Analytic functions
+### - Explicitly implemented
+### - Lambdas
+]
+.right-column[
+Some important analytic functions are implemented
+- Polynomials
+- Gaussians
+- Slater functions
+- Hydrogen solutions
+
+General analytic function through lambdas
+```cpp
+auto f = [] (const double *r) -> double;
+```
+]
+
+---
+
+.left-column[
+## Analytic functions
+### - Explicitly implemented
+### - Lambdas
 ### - Example
 ]
 .right-column[

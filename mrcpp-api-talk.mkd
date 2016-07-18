@@ -41,14 +41,10 @@ layout: false
     auto f = [] (const double *r) -> double;
 ```
 ]
-
-???
-
-- General analytic function through lambdas:
-```cpp
-    auto f = [] (const double *r) -> double;
-```
-
+.left-column[
+## Example
+]
+.right-column[
 - Hydrogen nuclear potential
 
 ```cpp
@@ -58,6 +54,7 @@ layout: false
         return Z/R;
     }
 ```
+]
 
 ---
 
@@ -67,10 +64,10 @@ layout: false
 ]
 .right-column[
 ```cpp
-    int n;                              // Root scale defines box size 2^{-n}
-    int l[D];                           // Translation of first box
-    int nb[D];                          // Number of boxes
-    NodeIndex<D> idx(n, l);             // Index defining the first box
+    int n;                      // Box size 2^{-n}
+    int l[D];                   // Translation of first box
+    int nb[D];                  // Number of boxes
+    NodeIndex<D> idx(n, l);
     BoundingBox<D> world(idx, nb);
 ```
 ]

@@ -28,11 +28,10 @@ layout: false
 layout: false
 .left-column[
 ## Analytic functions
-### - Explicitly implemented
+### - Explicitly implemented functions
 ]
 .right-column[
 Some important analytic functions are implemented
-
 - Polynomials
 - Gaussians
 - Slater functions
@@ -44,55 +43,46 @@ Some important analytic functions are implemented
 
 .left-column[
 ## Analytic functions
-### - Explicitly implemented
-### - Lambdas
+### - Explicitly implemented functions
+### - Lambda functions
 ]
 .right-column[
 Some important analytic functions are implemented
-
 - Polynomials
 - Gaussians
 - Slater functions
 - Hydrogen solutions
-
-
-
-General analytic function through lambda functions
-
+\ 
+\ 
+General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
-
 ]
 
 ---
 
 .left-column[
 ## Analytic functions
-### - Explicitly implemented
-### - Lambdas
+### - Explicitly implemented functions
+### - Lambda functions
 ### - Example
 ]
 .right-column[
 Some important analytic functions are implemented
-
 - Polynomials
 - Gaussians
 - Slater functions
 - Hydrogen solutions
-
-
-
-General analytic function through lambda functions
-
+\ 
+\ 
+General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
-
-
-
+\ 
+\ 
 Hydrogen nuclear potential
-
 ```cpp
 double Z = 1.0;             // Hydrogen nuclear charge
 auto f = [Z] (const double *r) -> double {
@@ -100,7 +90,6 @@ auto f = [Z] (const double *r) -> double {
     return Z/R;
 }
 ```
-
 ]
 
 ---
@@ -136,14 +125,16 @@ int boxes[D];                   // Number of boxes
 NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
-
+\ 
+\ 
 - Two types of scaling basis
   * Legendre polynomials
   * Interpolating polynomials
+
 - Available orders.red[<sup>*</sup>]: `\(1 \leq k \leq 40\)`
 ]
 
-.footnote[.red[*] Some operators require `\( 2k \)` intermediates]
+.footnote[.red[*] Some operators require 2k intermediates]
 
 ---
 
@@ -162,12 +153,15 @@ int boxes[D];                   // Number of boxes
 NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
-
-- Two types of scaling bases
+\ 
+\ 
+- Two types of scaling basis
   * Legendre polynomials
   * Interpolating polynomials
 
 - Available<sup>.red[*]</sup> orders: `\(1 \leq k \leq 40\)`
+\ 
+\ 
 
 ```cpp
 int k;                          // Polynomial order
@@ -176,7 +170,7 @@ MultiResolutionAnalysis<D> MRA(world, basis);
 ```
 ]
 
-.footnote[.red[*] Some operators require `\( 2k \)` intermediates]
+.footnote[.red[*] Some operators require 2k intermediates]
 
 ---
 

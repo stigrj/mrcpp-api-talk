@@ -25,43 +25,6 @@ layout: false
 
 ---
 
-layout: false
-.left-column[
-## Analytic functions
-### - Explicitly implemented functions
-]
-.right-column[
-Some important analytic functions are implemented
-- Polynomials
-- Gaussians
-- Slater functions
-- Hydrogen solutions
-
-]
-
----
-
-.left-column[
-## Analytic functions
-### - Explicitly implemented functions
-### - Lambda functions
-]
-.right-column[
-Some important analytic functions are implemented
-- Polynomials
-- Gaussians
-- Slater functions
-- Hydrogen solutions
- 
- 
-General analytic function through lambdas
-```cpp
-auto f = [] (const double *r) -> double;
-```
-]
-
----
-
 .left-column[
 ## Analytic functions
 ### - Explicitly implemented functions
@@ -73,15 +36,13 @@ Some important analytic functions are implemented
 - Polynomials
 - Gaussians
 - Slater functions
-- Hydrogen solutions
-  
-  
+- Hydrogenic functions
+
 General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
-  
-  
+
 Hydrogen nuclear potential
 ```cpp
 double Z = 1.0;             // Hydrogen nuclear charge
@@ -98,78 +59,30 @@ layout: false
 .left-column[
 ## Multi Resolution Analysis
 ### -Computational domain
-]
-.right-column[
-```cpp
-int n;                          // Box size 2^{-n}
-int corner[D];                  // Translation of first box
-int boxes[D];                   // Number of boxes
-NodeIndex<D> idx(n, corner);
-BoundingBox<D> world(idx, boxes);
-```
-]
-
----
-
-layout: false
-.left-column[
-## Multi Resolution Analysis
-### -Computational domain
-### -Scaling basis
-]
-.right-column[
-```cpp
-int n;                          // Box size 2^{-n}
-int corner[D];                  // Translation of first box
-int boxes[D];                   // Number of boxes
-NodeIndex<D> idx(n, corner);
-BoundingBox<D> world(idx, boxes);
-```
- 
- 
-- Two types of scaling basis
-  * Legendre polynomials
-  * Interpolating polynomials
-
-- Available orders.red[<sup>*</sup>]: `\(1 \leq k \leq 40\)`
-]
-
-.footnote[.red[*] Some operators require 2k intermediates]
-
----
-
-layout: false
-.left-column[
-## Multi Resolution Analysis
-### -Computational domain
 ### -Scaling basis
 ### -MRA
 ]
 .right-column[
-```cpp
-int n;                          // Box size 2^{-n}
-int corner[D];                  // Translation of first box
-int boxes[D];                   // Number of boxes
-NodeIndex<D> idx(n, corner);
-BoundingBox<D> world(idx, boxes);
-```
- 
- 
 - Two types of scaling basis
   * Legendre polynomials
   * Interpolating polynomials
-
-- Available<sup>.red[*]</sup> orders: `\(1 \leq k \leq 40\)`
- 
+- Available orders<sup>.red[*]</sup>: `\(1 \leq k \leq 40\)`
  
 ```cpp
-int k;                          // Polynomial order
+int n = -2;                     // Box size 2^{-n}
+int corner[3] = {-1,-1,-1};     // Translation of first box
+int boxes[3]  = { 2, 2, 2};     // Number of boxes
+NodeIndex<3> idx(n, corner);
+BoundingBox<3> world(idx, boxes);
+
+int k = 7;                      // Polynomial order
 InterpolatingBasis basis(k);
-MultiResolutionAnalysis<D> MRA(world, basis);
+
+MultiResolutionAnalysis<3> MRA(world, basis);
 ```
 ]
 
-.footnote[.red[*] Some operators require 2k intermediates]
+.footnote[.red[*]Some operators require 2k intermediates]
 
 ---
 
@@ -186,7 +99,285 @@ Ways of constructing MW representations
 
 ---
 
-## Acknowldegements
+layout: false
+.left-column[
+## MWProjector
+### - Example
+]
+.right-column[
+Projecting a unit charge Gaussian
+
+```cpp
+double beta = 10.0;
+double alpha = pow(beta/pi, 3.0/2.0);
+auto f = [alpha, beta] (const double *r) -> double {
+    double R = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
+    return alpha*exp(-beta*R*R);
+}
+
+double prec = 1.0e-5;
+MWProjector<3> Q(MRA, prec);
+FunctionTree<3> *f_tree = Q(f);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## MWAdder
+### - Example
+]
+.right-column[
+Adaptive addition of two functions
+
+`$$ f = g - h $$`
+
+```cpp
+MWAdder<3> add(MRA, prec);
+FunctionTree<3> *f_tree = add(1.0, *g_tree, -1.0, *h_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## MWMultiplier
+### - Example
+]
+.right-column[
+Adaptive multiplication of two functions 
+
+`$$ f = g * h $$`
+
+```cpp
+MWMultiplier<3> mult(MRA, prec);
+FunctionTree<3> *f_tree = mult(1.0, *g_tree, *h_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## MWOperator
+### - Derivative
+]
+.right-column[
+Adaptive application of derivative operator
+
+`$$ f=\frac{\partial}{\partial y} g $$`
+
+```cpp
+DerivativeOperator<3> D(MRA, prec, a, b);   
+D.setApplyDir(1);
+FunctionTree<3> *f_tree = D(*g_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## MWOperator
+### - Poisson
+]
+.right-column[
+Adaptive application of Poisson operator
+
+`$$ f(r) =  \int \frac{1}{4\pi\|r-r'\|} g(r') dr' $$`
+
+```cpp
+PoissonOperator P(MRA, apply_prec, build_prec);   
+FunctionTree<3> *f_tree = P(*g_tree);
+
+double E = f_tree->dot(*g_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## MWOperator
+### - Helmholtz
+]
+.right-column[
+Adaptive application of Helmholtz operator
+
+`$$ f(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} g(r') dr' $$`
+
+```cpp
+HelmholtzOperator H(MRA, mu, apply_prec, build_prec);   
+FunctionTree<3> *f_tree = H(*g_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+]
+.right-column[
+- The presented TreeBuilders have a clear and limited interface
+- Two main drawbacks
+  * Every operation require construction of new tree
+  * Building algorithm always starts from root nodes
+
+- Two additional TreeBuilders<sup>.red[*]</sup>
+  * GridGenerator
+  * GridCleaner
+
+.footnote[.red[*]the __Grid__ prefix indicates that no MW coefs are computed]
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+]
+.right-column[
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+]
+.right-column[
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
+- Default constructor
+```cpp
+GridGenerator<D> G(MRA);
+FunctionTree<D> *f_tree = G();
+```
+
+- Copy existing grid
+```cpp
+GridGenerator<D> G(MRA);
+FunctionTree<D> *f_tree = G(*g_tree);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
+- Projecting on existing grid __without__ refinement
+```cpp
+MWProjector<D> Q(MRA);          // No (or negative) precision
+Q(*f_tree, f);                  // Fixed projection
+```
+
+- Projecting on existing grid __with__ refinement
+```cpp
+MWProjector<D> Q(MRA, prec);    // Positive precision
+Q(*f_tree, f);                  // Adaptive projection
+```
+
+- Projecting on existing grid with __limited__ refinement
+```cpp
+MWProjector<D> Q(MRA, prec);    // Positive precision
+Q(*f_tree, f, max_iter);        // Limited adaptive projection
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
+- Derivatives are usually computed on a fixed grid
+```cpp
+GridGenerator<3> G(MRA);
+DerivativeOperator<3> D(MRA);
+D.setApplyDir(1);
+
+FunctionTree<3> *f_tree = G();  // Initialize empty grid
+G(*f_tree, *g_tree);            // Copy grid from g
+D(*f_tree, *g_tree);            // Compute on fixed grid
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
+- Addition of two functions is usually done on their union grid
+```cpp
+GridGenerator<D> G(MRA);
+MWAdder<D> add(MRA);
+
+FunctionTree<D> *f_tree = G();              // Construct empty grid
+G(*f_tree, *g_tree);                        // Copy grid of g
+G(*f_tree, *h_tree);                        // Copy grid of h
+add(*f_tree, 1.0, *g_tree, -1.0, *h_tree);  // Compute on fixed grid
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
+- A cumbersome adaptive projection algorithm
+```cpp
+double prec;
+GridCleaner<D> C(MRA, prec);    // Precision is passed to the
+MWProjector<D> Q(MRA);          // cleaner, not the projector
+
+int n_nodes = 1;
+while (n_nodes > 0) {
+    Q(*f_tree, f);              // Project f on given grid
+    n_nodes = C(*f_tree);       // Refine and clear
+}
+Q(*f_tree, f);                  // Project f on final grid
+```
+]
+
+---
+
+## Acknowldegments
 
 - Luca Frediani
 

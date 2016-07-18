@@ -30,13 +30,13 @@ layout: false
 ## Analytic functions
 ]
 .right-column[
-- Some important analytic functions are implemented
-  * Polynomials
-  * Gaussians
-  * Slater functions
-  * Hydrogen solutions
+Some important analytic functions are implemented
+- Polynomials
+- Gaussians
+- Slater functions
+- Hydrogen solutions
 
-- General analytic function through lambdas
+General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
@@ -49,19 +49,18 @@ auto f = [] (const double *r) -> double;
 ### - Example
 ]
 .right-column[
-### Some important analytic functions are implemented
-  * Polynomials
-  * Gaussians
-  * Slater functions
-  * Hydrogen solutions
+Some important analytic functions are implemented
+- Polynomials
+- Gaussians
+- Slater functions
+- Hydrogen solutions
 
-### General analytic function through lambdas
+General analytic function through lambdas
 ```cpp
 auto f = [] (const double *r) -> double;
 ```
 
-### Hydrogen nuclear potential
-
+Hydrogen nuclear potential
 ```cpp
 double Z = 1.0;             // Hydrogen nuclear charge
 auto f = [Z] (const double *r) -> double {

@@ -1,8 +1,11 @@
 name: inverse
 layout: true
 class: center, middle, inverse
+
 ---
-#MRCPP: Application Program Interface
+
+#MRCPP
+##Application Program Interface
 
 .author[Stig Rune Jensen]
 
@@ -11,12 +14,12 @@ class: center, middle, inverse
 .footnote[Slides available on [GitHub](https://github.com/stigrj/mrcpp-api-talk)]
 
 ---
+
 layout: false
 .left-column[
 ## Introduction
 ]
 .right-column[
-]
 ### Some intro
 ]
 
@@ -27,7 +30,13 @@ layout: false
 ## Analytic functions
 ]
 .right-column[
-    Available through lambda functions
+- Some important analytic functions are implemented
+  * Polynomials
+  * Gaussians
+  * Slater functions
+  * Hydrogen solutions
+
+- General analytic function through lambdas
 ```cpp
     auto f = [] (const double *r) -> double;
 ```
@@ -35,17 +44,12 @@ layout: false
 
 ???
 
-.left-column[
-## Analytic functions
-## Example
-]
-.right-column[
-    Available through lambda functions
+- General analytic function through lambdas:
 ```cpp
     auto f = [] (const double *r) -> double;
 ```
 
-    Hydrogen nuclear potential
+- Hydrogen nuclear potential
 
 ```cpp
     double Z = 1.0;             // Hydrogen nuclear charge
@@ -54,7 +58,6 @@ layout: false
         return Z/R;
     }
 ```
-]
 
 ---
 

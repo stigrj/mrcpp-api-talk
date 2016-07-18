@@ -141,7 +141,6 @@ BoundingBox<D> world(idx, boxes);
   * Legendre polynomials
   * Interpolating polynomials
 - Available orders.red[<sup>*</sup>]: `\(1 \leq k \leq 40\)`
-
 ]
 
 .footnote[.red[*] Some operators require `\(2k\)` intermediates]
@@ -164,17 +163,17 @@ NodeIndex<D> idx(n, corner);
 BoundingBox<D> world(idx, boxes);
 ```
 
-- Two types of scaling basis
+- Two types of scaling bases
   * Legendre polynomials
   * Interpolating polynomials
-- Available orders<sup>.red[*]</sup>: `\(1 \leq k \leq 40\)`
+
+- Available<sup>.red[*]</sup> orders: `\(1 \leq k \leq 40\)`
 
 ```cpp
 int k;                          // Polynomial order
 InterpolatingBasis basis(k);
 MultiResolutionAnalysis<D> MRA(world, basis);
 ```
-
 ]
 
 .footnote[.red[*] Some operators require `\(2k\)` intermediates]

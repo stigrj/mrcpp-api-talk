@@ -38,21 +38,36 @@ layout: false
 
 - General analytic function through lambdas
 ```cpp
-    auto f = [] (const double *r) -> double;
+auto f = [] (const double *r) -> double;
 ```
 ]
+
+---
+
 .left-column[
-- Example
+## Analytic functions
+### - Example
 ]
 .right-column[
-- Hydrogen nuclear potential
+### Some important analytic functions are implemented
+  * Polynomials
+  * Gaussians
+  * Slater functions
+  * Hydrogen solutions
+
+### General analytic function through lambdas
+```cpp
+auto f = [] (const double *r) -> double;
+```
+
+### Hydrogen nuclear potential
 
 ```cpp
-    double Z = 1.0;             // Hydrogen nuclear charge
-    auto f = [Z] (const double *r) -> double {
-        double R = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
-        return Z/R;
-    }
+double Z = 1.0;             // Hydrogen nuclear charge
+auto f = [Z] (const double *r) -> double {
+    double R = sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
+    return Z/R;
+}
 ```
 ]
 
@@ -63,31 +78,29 @@ layout: false
 ## Multi Resolution Analysis
 ]
 .right-column[
-### Computational domain
+Computational domain
 ```cpp
-    int n;                      // Box size 2^{-n}
-    int l[D];                   // Translation of first box
-    int nb[D];                  // Number of boxes
-    NodeIndex<D> idx(n, l);
-    BoundingBox<D> world(idx, nb);
+int n;                      // Box size 2^{-n}
+int l[D];                   // Translation of first box
+int nb[D];                  // Number of boxes
+NodeIndex<D> idx(n, l);
+BoundingBox<D> world(idx, nb);
 ```
 
-### Scaling basis
- * Legendre polynomials
- * Interpolating polynomials
- * Available orders[+]: `\(1 \leq k \leq 40\)`
+Scaling basis
+ - Legendre polynomials
+ - Interpolating polynomials
+ - Available orders footnote[.red[+] Some operators require intermediates of order `\(2k\)`, so in that case the
+maximum order is `\(k=20\)`]: `\(1 \leq k \leq 40\)`
 ```cpp
-    int k;                              // Polynomial order
-    InterpolatingBasis basis(k);        // Legendre or Interpolating basis
+int k;                      // Polynomial order
+InterpolatingBasis basis(k);
 ```
 
-### Multi-resolution analysis
+Multi-resolution analysis
 ```cpp
-    MultiResolutionAnalysis<D> MRA(world, basis);
+MultiResolutionAnalysis<D> MRA(world, basis);
 ```
-
-[+] Some operators require intermediates of order `\(2k\)`, so in that case the
-maximum order is `\(k=20\)`
 ]
 
 ---
@@ -97,10 +110,10 @@ layout: false
 ## Function representations
 ]
 .right-column[
-### Ways of constructing MW representations
-* Projection of analytic function
-* Arithmetic operations
-* Application of MW operator
+Ways of constructing MW representations
+- Projection of analytic function
+- Arithmetic operations
+- Application of MW operator
 ]
 
 ---

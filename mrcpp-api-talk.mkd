@@ -15,6 +15,7 @@ class: center, middle, inverse
 
 ---
 
+layout: false
 .left-column[
 ## Analytic functions
 ]
@@ -73,7 +74,7 @@ Available orders:<sup>.red[*]</sup> `\(1 \leq k \leq 40\)`
 
 layout: false
 .left-column[
-## Function representations
+## FunctionTree
 ]
 .right-column[
 The FunctionTree is a rather complicated data structure
@@ -173,7 +174,7 @@ layout: false
 .right-column[
 #### Adaptive multiplication of two functions 
 
-`$$ f = g * h $$`
+`$$ f = g \times h $$`
 
 ```cpp
 double prec = 1.0e-5;
@@ -258,7 +259,7 @@ layout: false
 `$$ f(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} g(r') dr' $$`
 
 ```cpp
-double mu = -0.5;
+double mu = 1.0;
 double apply_prec = 1.0e-5;
 double build_prec = 1.0e-6;
 HelmholtzOperator H(mu, MRA, apply_prec, build_prec);   
@@ -317,13 +318,13 @@ layout: false
 ### - Examples
 ]
 .right-column[
-- Default constructor
+Default constructor
 ```cpp
 GridGenerator<D> G(MRA);
 FunctionTree<D> *f_tree = G();
 ```
 
-- Copy existing grid
+Copy existing grid
 ```cpp
 GridGenerator<D> G(MRA);
 FunctionTree<D> *f_tree = G(*g_tree);
@@ -342,20 +343,23 @@ layout: false
 .right-column[
 Projecting on existing grid __without__ refinement
 ```cpp
-MWProjector<D> Q(MRA);          // No (or negative) precision
-Q(*f_tree, f);                  // Fixed projection
+MWProjector<D> Q(MRA);        // No (or negative) precision
+Q(*f_tree, f);                // Fixed projection
 ```
 
 Projecting on existing grid __with__ refinement
 ```cpp
-MWProjector<D> Q(MRA, prec);    // Positive precision
-Q(*f_tree, f);                  // Adaptive projection
+double prec = 1.0e-5;
+MWProjector<D> Q(MRA, prec);  // Positive precision
+Q(*f_tree, f);                // Adaptive projection
 ```
 
 Projecting on existing grid with __limited__ refinement
 ```cpp
-MWProjector<D> Q(MRA, prec);    // Positive precision
-Q(*f_tree, f, max_iter);        // Limited adaptive projection
+int max_iter = 2;
+double prec = 1.0e-5;
+MWProjector<D> Q(MRA, prec);  // Positive precision
+Q(*f_tree, f, max_iter);      // Limited adaptive projection
 ```
 ]
 
@@ -373,12 +377,11 @@ layout: false
 
 ```cpp
 GridGenerator<3> G(MRA);
-DerivativeOperator<3> D(MRA);
-D.setApplyDir(1);
+DerivativeOperator<3> D(1, MRA); // No (or negative) precision
 
-FunctionTree<3> *f_tree = G();  // Initialize empty grid
-G(*f_tree, *g_tree);            // Copy grid from g
-D(*f_tree, *g_tree);            // Compute on fixed grid
+FunctionTree<3> *f_tree = G();   // Initialize empty grid
+G(*f_tree, *g_tree);             // Copy grid from g
+D(*f_tree, *g_tree);             // Compute on fixed grid
 ```
 ]
 
@@ -398,10 +401,10 @@ layout: false
 GridGenerator<D> G(MRA);
 MWAdder<D> add(MRA);
 
-FunctionTree<D> *f_tree = G();              // Construct empty grid
-G(*f_tree, *g_tree);                        // Copy grid of g
-G(*f_tree, *h_tree);                        // Copy grid of h
-add(*f_tree, 1.0, *g_tree, -1.0, *h_tree);  // Compute on fixed grid
+FunctionTree<D> *f_tree = G();      // Construct empty grid
+G(*f_tree, *g_tree);                // Copy grid of g
+G(*f_tree, *h_tree);                // Copy grid of h
+add(*f_tree, 1.0, *g_tree, -1.0, *h_tree);  // Fixed grid
 ```
 ]
 

@@ -295,6 +295,12 @@ layout: false
 ### - GridGenerator
 ]
 .right-column[
+#### GridGenerator
+- Constructs empty FunctionTrees with no MW coefficients
+
+- Used to copy existing grids
+
+- Used to build suitable initial grids
 ]
 
 ---
@@ -306,6 +312,21 @@ layout: false
 ### - GridCleaner
 ]
 .right-column[
+#### GridGenerator
+- Constructs empty FunctionTrees with no MW coefficients
+
+- Used to copy existing grids
+
+- Used to build suitable initial grids
+
+#### GridCleaner
+- Clears MW coefficients from existing FunctionTrees
+
+- Produces reusable grids
+
+- Can refine grid one level before clearing
+
+- Useful for iterative algorithms
 ]
 
 ---

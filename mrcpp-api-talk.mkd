@@ -15,21 +15,8 @@ class: center, middle, inverse
 
 ---
 
-layout: false
-.left-column[
-## Introduction
-]
-.right-column[
-### Some intro
-]
-
----
-
 .left-column[
 ## Analytic functions
-### - Explicitly implemented functions
-### - Lambda functions
-### - Example
 ]
 .right-column[
 Some important analytic functions are implemented
@@ -58,16 +45,8 @@ auto f = [Z] (const double *r) -> double {
 layout: false
 .left-column[
 ## Multi Resolution Analysis
-### -Computational domain
-### -Scaling basis
-### -MRA
 ]
 .right-column[
-- Two types of scaling basis
-  * Legendre polynomials
-  * Interpolating polynomials
-- Available orders<sup>.red[*]</sup>: `\(1 \leq k \leq 40\)`
- 
 ```cpp
 int n = -2;                     // Box size 2^{-n}
 int corner[3] = {-1,-1,-1};     // Translation of first box
@@ -80,6 +59,12 @@ InterpolatingBasis basis(k);
 
 MultiResolutionAnalysis<3> MRA(world, basis);
 ```
+Two types of scaling basis
+- Legendre polynomials
+- Interpolating polynomials
+
+Available orders:<sup>.red[*]</sup> `\(1 \leq k \leq 40\)`
+ 
 ]
 
 .footnote[.red[*]Some operators require 2k intermediates]
@@ -91,19 +76,23 @@ layout: false
 ## Function representations
 ]
 .right-column[
-- The FunctionTree is a rather complicated data structure
-- Construction involves
-  * Setting up memory allocator
-  * Setting up root nodes according to MRA
-  * Growing a tree structure
-  * Computing MW coefficients
-- FunctionTree constructor is __protected__
-- Construction handled by __TreeBuilder__ objects
-- Different ways of constructing MW representations
-  * Projection of analytic function
-  * Addition of MW functions
-  * Multiplication of MW functions
-  * Application of MW operator
+The FunctionTree is a rather complicated data structure
+
+Construction involves
+- Setting up memory allocator
+- Setting up root nodes according to MRA
+- Growing a tree structure
+- Computing MW coefficients
+
+FunctionTree constructor is __protected__
+
+Construction handled by __TreeBuilder__ objects
+
+Different ways of constructing MW representations
+- Projection of analytic function
+- Addition of MW functions
+- Multiplication of MW functions
+- Application of MW operator
 ]
 
 ---
@@ -113,17 +102,17 @@ layout: false
 ## TreeBuilder
 ]
 .right-column[
-- Tree building algorithm
-  1. Start with an initial guess for the grid
-  2. Compute the output function on the current grid
-  3. Refine the grid where needed
-  4. Iterate 2 and 3 until the grid is converged
+Tree building algorithm
+1. Start with an initial guess for the grid
+2. Compute the output function on the current grid
+3. Refine the grid where needed
+4. Iterate 2 and 3 until the grid is converged
 
-- Four available TreeBuilders<sup>.red[*]</sup>
-  * MWProjector
-  * MWAdder
-  * MWMultiplier
-  * MWOperator
+Four available TreeBuilders<sup>.red[*]</sup>
+- MWProjector
+- MWAdder
+- MWMultiplier
+- MWOperator
 
 .footnote[.red[*]the __MW__ prefix indicates that MW coefs are computed]
 ]
@@ -136,7 +125,7 @@ layout: false
 ### - MWProjector
 ]
 .right-column[
-Projecting a unit charge Gaussian
+#### Projecting a unit charge Gaussian
 
 ```cpp
 double beta = 10.0;
@@ -161,11 +150,12 @@ layout: false
 ### - MWAdder
 ]
 .right-column[
-Adaptive addition of two functions
+#### Adaptive addition of two functions
 
 `$$ f = g - h $$`
 
 ```cpp
+double prec = 1.0e-5;
 MWAdder<3> add(MRA, prec);
 FunctionTree<3> *f_tree = add(1.0, *g_tree, -1.0, *h_tree);
 ```
@@ -181,11 +171,12 @@ layout: false
 ### - MWMultiplier
 ]
 .right-column[
-Adaptive multiplication of two functions 
+#### Adaptive multiplication of two functions 
 
 `$$ f = g * h $$`
 
 ```cpp
+double prec = 1.0e-5;
 MWMultiplier<3> mult(MRA, prec);
 FunctionTree<3> *f_tree = mult(1.0, *g_tree, *h_tree);
 ```
@@ -202,10 +193,10 @@ layout: false
 ### - MWOperator
 ]
 .right-column[
-- Three types of MW operator
-  * DerivativeOperator
-  * PoissonOperator
-  * HelmholtzOperator
+Three types of MW operator
+- DerivativeOperator
+- PoissonOperator
+- HelmholtzOperator
 ]
 
 ---
@@ -216,13 +207,15 @@ layout: false
 ### - Derivative Operator
 ]
 .right-column[
-Adaptive application of derivative operator
+#### Adaptive application of derivative operator
 
 `$$ f=\frac{\partial g}{\partial y} $$`
 
 ```cpp
-DerivativeOperator<3> D(MRA, prec, a, b);   
-D.setApplyDir(1);
+double a = 0.5;
+double b = 0.5;
+double prec = 1.0e-5;
+DerivativeOperator<3> D(1, MRA, prec, a, b);   
 FunctionTree<3> *f_tree = D(*g_tree);
 ```
 ]
@@ -236,11 +229,13 @@ layout: false
 ### - Poisson Operator
 ]
 .right-column[
-Adaptive application of Poisson operator
+#### Adaptive application of Poisson operator
 
 `$$ f(r) =  \int \frac{1}{4\pi\|r-r'\|} g(r') dr' $$`
 
 ```cpp
+double apply_prec = 1.0e-5;
+double build_prec = 1.0e-6;
 PoissonOperator P(MRA, apply_prec, build_prec);   
 FunctionTree<3> *f_tree = P(*g_tree);
 
@@ -258,12 +253,15 @@ layout: false
 ### - Helmholtz Operator
 ]
 .right-column[
-Adaptive application of Helmholtz operator
+#### Adaptive application of Helmholtz operator
 
 `$$ f(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} g(r') dr' $$`
 
 ```cpp
-HelmholtzOperator H(MRA, mu, apply_prec, build_prec);   
+double mu = -0.5;
+double apply_prec = 1.0e-5;
+double build_prec = 1.0e-6;
+HelmholtzOperator H(mu, MRA, apply_prec, build_prec);   
 FunctionTree<3> *f_tree = H(*g_tree);
 ```
 ]
@@ -275,14 +273,15 @@ layout: false
 ## Advanced initialization
 ]
 .right-column[
-- The presented TreeBuilders have a clear and limited interface
-- Two main drawbacks
-  * Every operation require construction of new tree
-  * Building algorithm always starts from root nodes
+The presented TreeBuilders have a clear and limited interface
 
-- Two additional TreeBuilders<sup>.red[*]</sup>
-  * GridGenerator
-  * GridCleaner
+Two main drawbacks
+- Every operation require construction of new tree
+- Building algorithm always starts from root nodes
+
+Two additional TreeBuilders<sup>.red[*]</sup>
+- GridGenerator
+- GridCleaner
 
 .footnote[.red[*]the __Grid__ prefix indicates that MW coefs are __not__ computed]
 ]
@@ -370,7 +369,8 @@ layout: false
 ### - Examples
 ]
 .right-column[
-Derivatives are usually computed on a fixed grid
+#### Derivatives are usually computed on a fixed grid
+
 ```cpp
 GridGenerator<3> G(MRA);
 DerivativeOperator<3> D(MRA);
@@ -392,7 +392,8 @@ layout: false
 ### - Examples
 ]
 .right-column[
-Addition of two functions is usually done on their union grid
+#### Addition of two functions is usually done on their union grid
+
 ```cpp
 GridGenerator<D> G(MRA);
 MWAdder<D> add(MRA);
@@ -414,9 +415,10 @@ layout: false
 ### - Examples
 ]
 .right-column[
-A cumbersome adaptive projection algorithm
+#### A cumbersome adaptive projection algorithm
+
 ```cpp
-double prec;
+double prec = 1.0e-5;
 GridCleaner<D> C(MRA, prec);    // Precision is passed to the
 MWProjector<D> Q(MRA);          // cleaner, not the projector
 
@@ -431,22 +433,8 @@ Q(*f_tree, f);                  // Project f on final grid
 
 ---
 
-## Acknowldegments
-
-- Luca Frediani
-
-- Tor Flå
-
-- Radovan Bast
-
-- Jonas Juselius
-
----
-
 name: last-page
 template: inverse
-
-## Thanks for your attention!
 
 Slideshow created using [remark] and served using [cicero]
 

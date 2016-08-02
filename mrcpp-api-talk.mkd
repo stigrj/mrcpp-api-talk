@@ -126,7 +126,7 @@ layout: false
 ### - MWProjector
 ]
 .right-column[
-#### Projecting a unit charge Gaussian
+Projecting a unit charge Gaussian
 
 ```cpp
 double beta = 10.0;
@@ -151,7 +151,7 @@ layout: false
 ### - MWAdder
 ]
 .right-column[
-#### Adaptive addition of two functions
+Adaptive addition of two functions
 
 `$$ f = g - h $$`
 
@@ -172,7 +172,7 @@ layout: false
 ### - MWMultiplier
 ]
 .right-column[
-#### Adaptive multiplication of two functions 
+Adaptive multiplication of two functions 
 
 `$$ f = g \times h $$`
 
@@ -208,7 +208,7 @@ layout: false
 ### - Derivative Operator
 ]
 .right-column[
-#### Adaptive application of derivative operator
+Adaptive application of derivative operator
 
 `$$ f=\frac{\partial g}{\partial y} $$`
 
@@ -230,7 +230,7 @@ layout: false
 ### - Poisson Operator
 ]
 .right-column[
-#### Adaptive application of Poisson operator
+Adaptive application of Poisson operator
 
 `$$ f(r) =  \int \frac{1}{4\pi\|r-r'\|} g(r') dr' $$`
 
@@ -254,7 +254,7 @@ layout: false
 ### - Helmholtz Operator
 ]
 .right-column[
-#### Adaptive application of Helmholtz operator
+Adaptive application of Helmholtz operator
 
 `$$ f(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} g(r') dr' $$`
 
@@ -295,7 +295,7 @@ layout: false
 ### - GridGenerator
 ]
 .right-column[
-#### GridGenerator
+GridGenerator
 - Constructs empty FunctionTrees with no MW coefficients
 
 - Used to copy existing grids
@@ -312,14 +312,14 @@ layout: false
 ### - GridCleaner
 ]
 .right-column[
-#### GridGenerator
+GridGenerator
 - Constructs empty FunctionTrees with no MW coefficients
 
 - Used to copy existing grids
 
 - Used to build suitable initial grids
 
-#### GridCleaner
+GridCleaner
 - Clears MW coefficients from existing FunctionTrees
 
 - Produces reusable grids
@@ -394,11 +394,11 @@ layout: false
 ### - Examples
 ]
 .right-column[
-#### Derivatives are usually computed on a fixed grid
+Derivatives are usually computed on a fixed grid
 
 ```cpp
 GridGenerator<3> G(MRA);
-DerivativeOperator<3> D(1, MRA); // No (or negative) precision
+DerivativeOperator<3> D(1, MRA); // No precision
 
 FunctionTree<3> *f_tree = G();   // Initialize empty grid
 G(*f_tree, *g_tree);             // Copy grid from g
@@ -416,7 +416,7 @@ layout: false
 ### - Examples
 ]
 .right-column[
-#### Addition of two functions is usually done on their union grid
+Addition of two functions is usually done on their union grid
 
 ```cpp
 GridGenerator<D> G(MRA);
@@ -439,7 +439,7 @@ layout: false
 ### - Examples
 ]
 .right-column[
-#### A cumbersome adaptive projection algorithm
+A cumbersome adaptive projection algorithm
 
 ```cpp
 double prec = 1.0e-5;

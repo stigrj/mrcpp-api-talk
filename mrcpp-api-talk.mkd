@@ -336,6 +336,31 @@ layout: false
 ### - Examples
 ]
 .right-column[
+TreeBuilders have two ways to operate
+
+- Construct new tree and start from root
+```cpp
+TreeBuilder<D> B(MRA);
+FunctionTree<D> *out = B(inp);
+```
+
+- Start from existing empty tree
+```cpp
+TreeBuilder<D> B(MRA);
+B(*out, inp);
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
 Default constructor
 ```cpp
 GridGenerator<D> G(MRA);
@@ -346,6 +371,12 @@ Copy existing grid
 ```cpp
 GridGenerator<D> G(MRA);
 FunctionTree<D> *f_tree = G(*g_tree);
+```
+
+Estimate grid based on analytic requirements
+```cpp
+GridGenerator<D> G(MRA);
+FunctionTree<D> *f_tree = G(f_func);
 ```
 ]
 

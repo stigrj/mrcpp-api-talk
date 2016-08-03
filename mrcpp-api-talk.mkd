@@ -193,8 +193,16 @@ layout: false
 .right-column[
 Three types of MW operator
 - DerivativeOperator
+
+  `$$ g(x) = \frac{d}{dx}f(x)
+
 - PoissonOperator
+
+  `$$ g(x) = \int \frac{1}{4\pi\|x-y\|}f(y) dy
+
 - HelmholtzOperator
+
+  `$$ g(x) = \int \frac{e^{-\mu\|x-y\|}}{4\pi\|x-y\|}f(y) dy
 ]
 
 ---
@@ -207,7 +215,7 @@ layout: false
 .right-column[
 Adaptive application of derivative operator
 
-`$$ f=\frac{\partial g}{\partial y} $$`
+`$$ g = \frac{\partial f}{\partial y} $$`
 
 ```cpp
 double a = 0.5;
@@ -229,13 +237,13 @@ layout: false
 .right-column[
 Adaptive application of Poisson operator
 
-`$$ f(r) =  \int \frac{1}{4\pi\|r-r'\|} g(r') dr' $$`
+`$$ g(r) =  \int \frac{1}{4\pi\|r-r'\|} f(r') dr' $$`
 
 ```cpp
 double apply_prec = 1.0e-5;
 double build_prec = 1.0e-7;
 PoissonOperator P(MRA, apply_prec, build_prec);   
-FunctionTree<3> *f_tree = P(*g_tree);
+FunctionTree<3> *g_tree = P(*f_tree);
 
 double E = f_tree->dot(*g_tree);
 ```
@@ -253,14 +261,14 @@ layout: false
 .right-column[
 Adaptive application of Helmholtz operator
 
-`$$ f(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} g(r') dr' $$`
+`$$ g(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} f(r') dr' $$`
 
 ```cpp
 double mu = 1.0;
 double apply_prec = 1.0e-5;
 double build_prec = 1.0e-7;
 HelmholtzOperator H(mu, MRA, apply_prec, build_prec);   
-FunctionTree<3> *f_tree = H(*g_tree);
+FunctionTree<3> *g_tree = H(*f_tree);
 ```
 ]
 

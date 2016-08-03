@@ -338,13 +338,13 @@ layout: false
 .right-column[
 TreeBuilders have two ways to operate
 
-- Construct new tree and start from root
+1. Construct new tree and start from root
 ```cpp
 TreeBuilder<D> B(MRA);
 FunctionTree<D> *out = B(inp);
 ```
 
-- Start from existing empty tree
+2. Start from existing empty tree
 ```cpp
 TreeBuilder<D> B(MRA);
 B(*out, inp);

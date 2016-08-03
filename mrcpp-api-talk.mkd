@@ -233,7 +233,7 @@ Adaptive application of Poisson operator
 
 ```cpp
 double apply_prec = 1.0e-5;
-double build_prec = 1.0e-6;
+double build_prec = 1.0e-7;
 PoissonOperator P(MRA, apply_prec, build_prec);   
 FunctionTree<3> *f_tree = P(*g_tree);
 
@@ -258,7 +258,7 @@ Adaptive application of Helmholtz operator
 ```cpp
 double mu = 1.0;
 double apply_prec = 1.0e-5;
-double build_prec = 1.0e-6;
+double build_prec = 1.0e-7;
 HelmholtzOperator H(mu, MRA, apply_prec, build_prec);   
 FunctionTree<3> *f_tree = H(*g_tree);
 ```

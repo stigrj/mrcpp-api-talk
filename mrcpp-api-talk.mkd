@@ -17,6 +17,32 @@ class: center, middle, inverse
 
 layout: false
 .left-column[
+## Multi Resolution Analysis
+]
+.right-column[
+```cpp
+int n = -2;                     // Box size 2^{-n}
+int corner[3] = {-1,-1,-1};     // Translation of first box
+int boxes[3]  = { 2, 2, 2};     // Number of boxes
+NodeIndex<3> idx(n, corner);
+BoundingBox<3> world(idx, boxes);
+
+int k = 7;                      // Polynomial order
+InterpolatingBasis basis(k);
+
+MultiResolutionAnalysis<3> MRA(world, basis);
+```
+Two types of scaling basis
+- Legendre polynomials
+- Interpolating polynomials
+
+Available orders: `\(1 \leq k \leq 40\)`
+]
+
+---
+
+layout: false
+.left-column[
 ## Analytic functions
 ]
 .right-column[
@@ -40,35 +66,6 @@ auto f = [Z] (const double *r) -> double {
 }
 ```
 ]
-
----
-
-layout: false
-.left-column[
-## Multi Resolution Analysis
-]
-.right-column[
-```cpp
-int n = -2;                     // Box size 2^{-n}
-int corner[3] = {-1,-1,-1};     // Translation of first box
-int boxes[3]  = { 2, 2, 2};     // Number of boxes
-NodeIndex<3> idx(n, corner);
-BoundingBox<3> world(idx, boxes);
-
-int k = 7;                      // Polynomial order
-InterpolatingBasis basis(k);
-
-MultiResolutionAnalysis<3> MRA(world, basis);
-```
-Two types of scaling basis
-- Legendre polynomials
-- Interpolating polynomials
-
-Available orders:<sup>.red[*]</sup> `\(1 \leq k \leq 40\)`
- 
-]
-
-.footnote[.red[*]Some operators require 2k intermediates]
 
 ---
 

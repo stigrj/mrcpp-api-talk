@@ -448,7 +448,7 @@ Addition of two functions is usually done on their union grid
 
 ```cpp
 GridGenerator<D> G(MRA);
-MWAdder<D> add(MRA);
+MWAdder<D> add(MRA);                // No precision
 
 FunctionTree<D> *f_tree = G();      // Construct empty grid
 G(*f_tree, *g_tree);                // Copy grid of g

@@ -194,15 +194,15 @@ layout: false
 Three types of MW operator
 - DerivativeOperator
 
-  `$$ g(x) = \frac{d}{dx}f(x) $$`
+  `$$ g(r) = \frac{\partial}{\partial x}f(r) $$`
 
 - PoissonOperator
 
-  `$$ g(x) = \int \frac{1}{4\pi\|x-y\|}f(y) dy $$`
+  `$$ g(r) = \int \frac{1}{4\pi\|r-r'\|}f(r') dr' $$`
 
 - HelmholtzOperator
 
-  `$$ g(x) = \int \frac{e^{-\mu\|x-y\|}}{4\pi\|x-y\|}f(y) dy $$`
+  `$$ g(r) = \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|}f(r') dr' $$`
 ]
 
 ---
@@ -237,7 +237,7 @@ layout: false
 .right-column[
 Adaptive application of Poisson operator
 
-`$$ g(x) =  \int \frac{1}{4\pi\|x-y\|} f(y) dy $$`
+`$$ g(r) =  \int \frac{1}{4\pi\|r-r'\|} f(r') dr' $$`
 
 ```cpp
 double apply_prec = 1.0e-5;
@@ -261,7 +261,7 @@ layout: false
 .right-column[
 Adaptive application of Helmholtz operator
 
-`$$ g(x) =  \int \frac{e^{-\mu\|x-y\|}}{4\pi\|x-y\|} f(y) dy $$`
+`$$ g(r) =  \int \frac{e^{-\mu\|r-r'\|}}{4\pi\|r-r'\|} f(r') dr' $$`
 
 ```cpp
 double mu = 1.0;

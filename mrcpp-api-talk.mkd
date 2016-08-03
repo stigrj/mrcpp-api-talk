@@ -194,15 +194,15 @@ layout: false
 Three types of MW operator
 - DerivativeOperator
 
-  `$$ g(x) = \frac{d}{dx}f(x)
+  `$$ g(x) = \frac{d}{dx}f(x) $$`
 
 - PoissonOperator
 
-  `$$ g(x) = \int \frac{1}{4\pi\|x-y\|}f(y) dy
+  `$$ g(x) = \int \frac{1}{4\pi\|x-y\|}f(y) dy $$`
 
 - HelmholtzOperator
 
-  `$$ g(x) = \int \frac{e^{-\mu\|x-y\|}}{4\pi\|x-y\|}f(y) dy
+  `$$ g(x) = \int \frac{e^{-\mu\|x-y\|}}{4\pi\|x-y\|}f(y) dy $$`
 ]
 
 ---

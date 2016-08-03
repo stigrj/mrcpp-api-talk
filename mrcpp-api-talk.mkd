@@ -215,7 +215,7 @@ layout: false
 .right-column[
 Adaptive application of derivative operator
 
-`$$ g = \frac{\partial f}{\partial y} $$`
+`$$ g(r) = \frac{\partial}{\partial y} f(r) $$`
 
 ```cpp
 double a = 0.5;

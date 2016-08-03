@@ -467,6 +467,30 @@ layout: false
 ### - Examples
 ]
 .right-column[
+Addition of __several__ functions at once is best done adaptively
+
+```cpp
+FunctionTreeVector<D> inp_vec;      // Functions to be added
+
+double prec = 1.0e-5;
+GridGenerator<D> G(MRA);
+MWAdder<D> add(MRA, prec);          // Positive precision
+
+FunctionTree<D> *f_tree = G();      // Construct empty grid
+add(*f_tree, inp_vec);              // Adaptive addition
+```
+]
+
+---
+
+layout: false
+.left-column[
+## Advanced initialization
+### - GridGenerator
+### - GridCleaner
+### - Examples
+]
+.right-column[
 A cumbersome adaptive projection algorithm
 
 ```cpp
